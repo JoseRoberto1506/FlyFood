@@ -24,7 +24,7 @@ def ler_matriz():
         # Ler cada linha da matriz
         matriz_lida = []
         for linha in arquivo.readlines():
-            matriz_lida.append(list(linha))
+            matriz_lida.append(list(linha.split()))
         
         # Remover as quebras de linha ('\n') de cada linha 
         for elemento in matriz_lida:
