@@ -1,4 +1,4 @@
-from time import time
+from time import process_time
 
 
 def main():
@@ -6,13 +6,13 @@ def main():
 
     pontos_de_entrega, coordenadas = pegar_pontos_de_entrega(linhas, colunas, matriz)
 
-    inicio = time()
+    inicio = process_time()
 
     rotas = permutar(pontos_de_entrega)
 
     calcular_custo_das_rotas(rotas, coordenadas)
 
-    fim = time()
+    fim = process_time()
     print(f"Tempo total: {fim - inicio} segundos")
 
 
@@ -27,9 +27,9 @@ def ler_matriz():
             matriz_lida.append(list(linha.split()))
         
         # Remover as quebras de linha ('\n') de cada linha 
-        for elemento in matriz_lida:
-            if elemento[-1] == '\n':
-                del elemento[-1]
+        for linha in matriz_lida:
+            if linha[-1] == '\n':
+                linha = linha[0:-1]
         
     return int(quantidade_linhas), int(quantidade_colunas), matriz_lida
 
@@ -45,7 +45,6 @@ def pegar_pontos_de_entrega(linha, coluna, Matriz):
                 pontos_e_coordenadas[Matriz[i][j]] = (i, j)
     
     pontos.remove('R')
-    pontos.sort()
 
     return pontos, pontos_e_coordenadas
 
@@ -64,14 +63,20 @@ def permutar(pontos):
     # Lista para armazenar as combinações de rotas
     combinações = []
 
-    # Travando um ponto pelo seu index
+    # Travando um ponto pelo seu index na lista de pontos
     for ponto_travado in range(len(pontos)):
-        pontos_nao_visitados = pontos[0:ponto_travado] + pontos[ponto_travado + 1:]
-        # Concatenando cada combinação de rota dos pontos não visitados com o ponto travado
-        for ponto in permutar(pontos_nao_visitados):
+        pontos_restantes = pontos[0:ponto_travado] + pontos[ponto_travado + 1:]
+        # Concatenando cada combinação de rota dos pontos restantes com o ponto travado
+        for ponto in permutar(pontos_restantes):
             combinações.append([pontos[ponto_travado]] + ponto)
 
     return combinações
+
+
+def calcular_distancia_entre_pontos(ponto_1, ponto_2):
+    distancia = abs(ponto_1[0] - ponto_2[0]) + abs(ponto_1[1] - ponto_2[1])
+    
+    return distancia
 
 
 def calcular_custo_das_rotas(caminhos, coords):
@@ -97,12 +102,6 @@ def calcular_custo_das_rotas(caminhos, coords):
 
     print(f"Rota de menor distância: '{' '.join(menor_caminho)}'")
     print(f"Distância da menor rota: {custo_menor_caminho} dronômetros")
-
-
-def calcular_distancia_entre_pontos(ponto_1, ponto_2):
-    distancia = abs(ponto_1[0] - ponto_2[0]) + abs(ponto_1[1] - ponto_2[1])
-    
-    return distancia
 
 
 main()
