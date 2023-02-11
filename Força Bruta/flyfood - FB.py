@@ -109,6 +109,7 @@ def calcular_custo_das_rotas(caminhos, coords):
     return menor_caminho
 
 
+'''
 def desenhar_caminho(rota, coords):
     import matplotlib.pyplot as plt
     import numpy as np
@@ -146,6 +147,7 @@ def desenhar_caminho(rota, coords):
     plt.xticks(fontsize = 12)
     plt.yticks(fontsize = 12)
     plt.show()
+'''
 
 
 main()
