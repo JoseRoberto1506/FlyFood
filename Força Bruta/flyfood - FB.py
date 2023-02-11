@@ -10,10 +10,13 @@ def main():
 
     rotas = permutar(pontos_de_entrega)
 
-    calcular_custo_das_rotas(rotas, coordenadas)
+    menor_caminho_calculado = calcular_custo_das_rotas(rotas, coordenadas)
 
     fim = process_time()
     print(f"Tempo total: {fim - inicio} segundos")
+
+    # Função para desenhar o menor caminho (precisa do 'matplotlib.pyplot' e 'numpy' instalados)
+    # desenhar_caminho(menor_caminho_calculado, coordenadas)
 
 
 def ler_matriz():
@@ -102,6 +105,47 @@ def calcular_custo_das_rotas(caminhos, coords):
 
     print(f"Rota de menor distância: '{' '.join(menor_caminho)}'")
     print(f"Distância da menor rota: {custo_menor_caminho} dronômetros")
+    
+    return menor_caminho
+
+
+def desenhar_caminho(rota, coords):
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    array = [list(coords[ponto]) for ponto in rota]
+
+    melhor_percurso = np.array(array)
+    labels, len_pontos = rota, len(labels)
+
+    for i in range(len_pontos):
+        label = labels[i]
+        if i < (len_pontos - 1):
+            plt.plot(
+                np.array([melhor_percurso[i : i + 1, 0], melhor_percurso[i : i + 1, 0]]),
+                np.array([melhor_percurso[i : i + 1, 1], melhor_percurso[i + 1 : i + 2, 1]]),
+                "g.-", linewidth = 2, markersize = 14,
+            )
+            plt.plot(
+                np.array([melhor_percurso[i : i + 1, 0], melhor_percurso[i + 1 : i + 2, 0]]),
+                np.array([melhor_percurso[i + 1 : i + 2, 1], melhor_percurso[i + 1 : i + 2, 1]]),
+                "g.-", linewidth = 2, markersize = 14,
+            )
+            plt.annotate(
+                label,
+                (
+                    melhor_percurso[i : i + 1, 0],
+                    melhor_percurso[i : i + 1, 1],
+                ),
+                textcoords = "offset points", xytext = (14, 10), ha = "right", fontsize = 14,
+            )
+    
+    plt.title("Ilustração do melhor caminho", fontsize = 20)
+    plt.xlabel("Coordenada i", fontsize = 16)
+    plt.ylabel("Coordenada j", fontsize = 16)
+    plt.xticks(fontsize = 12)
+    plt.yticks(fontsize = 12)
+    plt.show()
 
 
 main()
