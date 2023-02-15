@@ -10,7 +10,8 @@ def main():
 
     rotas = permutar(pontos_de_entrega)
 
-    menor_caminho_calculado = calcular_custo_das_rotas(rotas, coordenadas)
+    calcular_custo_das_rotas(rotas, coordenadas)
+    # menor_caminho_calculado = calcular_custo_das_rotas(rotas, coordenadas)
 
     fim = process_time()
     print(f"Tempo total: {fim - inicio} segundos")
@@ -50,13 +51,6 @@ def pegar_pontos_de_entrega(linha, coluna, Matriz):
     pontos.remove('R')
 
     return pontos, pontos_e_coordenadas
-
-
-'''
-def xyz(lista):
-    for cada ponto não visitado
-        for combinação em (xyz() - lista[0])
-'''
 
 
 def permutar(pontos):
@@ -106,8 +100,7 @@ def calcular_custo_das_rotas(caminhos, coords):
     print(f"Rota de menor distância: '{' '.join(menor_caminho)}'")
     print(f"Distância da menor rota: {custo_menor_caminho} dronômetros")
     
-    return menor_caminho
-
+    # return menor_caminho
 
 '''
 def desenhar_caminho(rota, coords):
@@ -148,6 +141,5 @@ def desenhar_caminho(rota, coords):
     plt.yticks(fontsize = 12)
     plt.show()
 '''
-
 
 main()
