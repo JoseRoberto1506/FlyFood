@@ -1,6 +1,5 @@
 from typing import List, Dict
 from random import randint, random, shuffle
-from math import sqrt
 
 
 def ler_arquivo() -> List[list]:
@@ -45,7 +44,7 @@ def aptidao_individuo(ind: List[str], coords: Dict[str, tuple]) -> float:
     for i in range(len(ind) - 1):
         ponto_a = coords[ind[i]]
         ponto_b = coords[ind[i + 1]]
-        custo_caminho += sqrt((ponto_a[0] - ponto_b[0])**2 + (ponto_a[1] - ponto_b[1])**2)
+        custo_caminho += ((ponto_a[0] - ponto_b[0])**2 + (ponto_a[1] - ponto_b[1])**2)**0.5
 
     return custo_caminho
 
@@ -67,8 +66,8 @@ def selecionar_pais(populacao: List[list], aptidoes: List[float]) -> List[list]:
     # Seleção dos pais
     lista_pais: List[list] = [[None]] * len(populacao)
     for i in range(len(populacao)):
-        idex_selecionado: int = torneio(aptidoes)
-        lista_pais[i]: List[str] = populacao[idex_selecionado]
+        index_selecionado: int = torneio(aptidoes)
+        lista_pais[i]: List[str] = populacao[index_selecionado]
     
     return lista_pais
 
@@ -135,12 +134,12 @@ def evolucao():
     pontos_entrega, coordenadas = pegar_pontos_e_coords(ler_arquivo())
     n_pop = len(pontos_entrega) * 4 # Quantidade de permutações/caminhos
     # Taxa cruzamento = entre 0.6 e 0.9 | Taxa de mutação = aproximadamente 0.01
-    n_geracoes, taxa_cruzamento, taxa_mutacao = 16000, 0.8, 0.01
+    n_geracoes, taxa_cruzamento, taxa_mutacao = 3000, 0.8, 0.01
 
     pop: List[list] = populacao_inicial(pontos_entrega, n_pop)
     apt: List[float] = aptidao(pop, coordenadas)
 
-    for i in range(n_geracoes):
+    for _ in range(n_geracoes):
         pais: List[list] = selecionar_pais(pop, apt)
         filhos: List[list] = crossover(pais, taxa_cruzamento)
         filhos: List[list] = mutacao(filhos, taxa_mutacao)
